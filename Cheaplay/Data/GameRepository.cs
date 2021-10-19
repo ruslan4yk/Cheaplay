@@ -22,7 +22,6 @@ namespace Cheaplay.Data
             _games.Add(item);
             _context.SaveChanges();
         }
-
         public Game GetById(int id)
         {
             return _games.FirstOrDefault(g => g.Id == id);
