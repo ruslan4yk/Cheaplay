@@ -16,6 +16,7 @@ namespace Cheaplay.Data
         public DbSet<Game> Games { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
+        public DbSet<DiscountUpdate> Updates { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -23,7 +24,7 @@ namespace Cheaplay.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Game>().Property(g => g.Price).HasColumnType("decimal");
+            modelBuilder.Entity<Game>().Property(g => g.Price).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Subscription>().Property(g => g.MaxPrice).HasColumnType("decimal");
 
             /*modelBuilder.Entity<User>(u =>

@@ -4,14 +4,16 @@ using Cheaplay.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cheaplay.Migrations
 {
     [DbContext(typeof(CheaplayContext))]
-    partial class CheaplayContextModelSnapshot : ModelSnapshot
+    [Migration("20211025185825_AddDiscountUpdatesConnection")]
+    partial class AddDiscountUpdatesConnection
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,12 +64,6 @@ namespace Cheaplay.Migrations
 
                     b.Property<bool>("IsOnSale")
                         .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NumberSubscribes")
-                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");

@@ -21,8 +21,13 @@ namespace Cheaplay.Models
         public string Image { get; set; }
 
         public bool IsOnSale { get; set; }
+
         [Index(IsUnique = true)]
         public int IdSharkAPI { get; set; }
+
+        public DateTime LastUpdate { get; set; }
+
+        public int NumberSubscribes { get; set; }
 
         public Store Store { get; set; }
     }

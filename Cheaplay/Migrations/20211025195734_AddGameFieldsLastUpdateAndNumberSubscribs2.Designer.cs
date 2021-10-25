@@ -4,14 +4,16 @@ using Cheaplay.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cheaplay.Migrations
 {
     [DbContext(typeof(CheaplayContext))]
-    partial class CheaplayContextModelSnapshot : ModelSnapshot
+    [Migration("20211025195734_AddGameFieldsLastUpdateAndNumberSubscribs2")]
+    partial class AddGameFieldsLastUpdateAndNumberSubscribs2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
