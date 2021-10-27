@@ -4,14 +4,16 @@ using Cheaplay.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cheaplay.Migrations
 {
     [DbContext(typeof(CheaplayContext))]
-    partial class CheaplayContextModelSnapshot : ModelSnapshot
+    [Migration("20211027144940_ChangeUpdateModel")]
+    partial class ChangeUpdateModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,10 +23,9 @@ namespace Cheaplay.Migrations
 
             modelBuilder.Entity("Cheaplay.Models.DiscountUpdate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
