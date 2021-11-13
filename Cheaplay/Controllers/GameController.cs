@@ -13,7 +13,7 @@ namespace Cheaplay.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-        GameRepository _gameRepository = new GameRepository();
+        private readonly GameRepository _gameRepository = new GameRepository();
         [HttpGet]
         public ActionResult<List<Game>> Get() => _gameRepository.GetRandomGames(5);
         

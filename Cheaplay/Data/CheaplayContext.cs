@@ -26,6 +26,7 @@ namespace Cheaplay.Data
         {
             modelBuilder.Entity<Game>().Property(g => g.Price).HasColumnType("decimal(18,2)");
             modelBuilder.Entity<Subscription>().Property(g => g.MaxPrice).HasColumnType("decimal");
+            modelBuilder.Entity<DiscountUpdate>().Property(g => g.Id).ValueGeneratedOnAdd();
 
             /*modelBuilder.Entity<User>(u =>
             {

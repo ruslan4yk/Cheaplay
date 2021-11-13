@@ -1,0 +1,28 @@
+﻿@using CheaplayMVC.Models
+@model IEnumerable<Game>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-1" style="font-size: 4em;">Welcome to Cheaplay</h1>
+    <h4 class="disabled">Lucky games for you</h4>
+    <div class="card-deck" style="margin-top: 55px;">
+        @{
+
+            foreach (var game in Model)
+            {
+                <div class="card d-flex flex-column" style="width: 18rem; height: 20rem;">
+                    <img class="card-img-top" src=@game.Image alt=@game.Title.ToLower() width="120" height="90">
+                    <div class="card-body">
+                        <h6 class="card-title">@game.Title</h6>
+                        <p class="card-text">@game.Price</p>
+                        <a href="#"class="align-self-end btn btn-lg btn-block btn-primary">Add subscription</a>
+                    </div>
+                </div>
+
+ }
+              }
+                        </div>
+                    </div>

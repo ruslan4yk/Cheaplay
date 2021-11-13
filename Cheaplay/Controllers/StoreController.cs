@@ -13,7 +13,7 @@ namespace Cheaplay.Controllers
     [ApiController]
     public class StoreController : ControllerBase
     {
-        StoreRepository _storeRepository = new StoreRepository();
+        private readonly StoreRepository _storeRepository = new StoreRepository();
         [HttpGet("all")]
         public ActionResult<List<Store>> GetAll() => _storeRepository.GetAll();
 
