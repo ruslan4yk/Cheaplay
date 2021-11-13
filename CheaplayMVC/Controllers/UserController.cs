@@ -3,6 +3,7 @@ using CheaplayMVC.Models;
 using CheaplayMVC.Models.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 
 namespace CheaplayMVC.Controllers
 {
@@ -99,9 +102,93 @@ namespace CheaplayMVC.Controllers
         }
 
         [Authorize(Roles = "Admin, User")]
-        public ActionResult Profile()
+        public async Task<ActionResult> Profile()
         {
+            var login = HttpContext.User.Identity.Name;
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Login.Equals(login));
+            return View(user);
+        }
+
+        public async Task<ActionResult> Update(User userUpdate)
+        {
+            var login = HttpContext.User.Identity.Name;
+            User user = await _db.Users.FirstOrDefaultAsync(u => u.Login.Equals(login));
+            StringBuilder updateProblems = new StringBuilder("There are some problems:\n");
+            if (userUpdate.FirstName != null && userUpdate.FirstName != "")
+            {
+                user.FirstName = userUpdate.FirstName;
+            }
+            if (userUpdate.SecondName != null && userUpdate.SecondName != "")
+            {
+                user.SecondName = userUpdate.SecondName;
+            }
+            if (userUpdate.Email != null && userUpdate.Email != "")
+            {
+                if (CheckEmail(userUpdate.Email))
+                {
+                    user.Email = userUpdate.Email;
+                }
+                else
+                {
+                    updateProblems.Append("- Email should be like smth@xxx.com\n");
+                    updateProblems.Append("- This email probably already uses\n");
+                }
+            }
+            if (userUpdate.Birthday != new DateTime())
+            {
+                if (CheckBirthday(userUpdate.Birthday))
+                {
+                    user.Birthday = userUpdate.Birthday;
+                }
+                else
+                {
+                    updateProblems.Append("- Your birthday cannot be today or in future :D\n");
+                }
+            }
+            if (userUpdate.Password != null && userUpdate.Password != "")
+            {
+                if (CheckPassword(userUpdate.Password))
+                {
+                    user.Password = userUpdate.Password;
+                }
+                else
+                {
+                    updateProblems.Append("- Password should be 8 or more characters\n");
+                }
+            }
+
+            if (updateProblems.Length > 25)
+            {
+                ViewData["UpdateResult"] = updateProblems.ToString();                
+            }
+            else
+            {
+                await _db.SaveChangesAsync();
+                ViewData["UpdateResult"] = "Your account has been successfully updated!";
+            }
             return View();
+        }
+
+        public bool CheckBirthday(DateTime date)
+        {
+            return date < DateTime.Now;
+        }
+
+        public bool CheckPassword(string pass)
+        {
+            return pass!=null && pass.Length > 7;
+        }
+
+        public bool CheckEmail(string email)
+        {
+            if (_db.Users.Any(u => u.Email.Equals(email)))
+            {
+                return false;
+            }
+            var emailCheckup = new EmailAddressAttribute();
+            if (!(emailCheckup.IsValid(email)))
+                return false;
+            return true;
         }
     }
 }
