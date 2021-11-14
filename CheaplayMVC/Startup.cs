@@ -1,4 +1,5 @@
 using CheaplayMVC.Data;
+using CheaplayMVC.Jobs;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Quartz;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +35,11 @@ namespace CheaplayMVC
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/User/Login");
                 });
+
+            services.AddQuartz(q =>
+            {
+                UpdateSheduler.Start();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
