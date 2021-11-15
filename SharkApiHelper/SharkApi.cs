@@ -3,15 +3,16 @@ using System;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace SharkApiHelper
 {
     public static class SharkApi
     {
+        static string _key = GetRapidApiKey();
         private static async Task<string> GameLookupResp(int id)
         {
-            //Console.WriteLine($"Start adding id:{id}");
-
+            string key = GetRapidApiKey();
             var client = new HttpClient();
             var request = new HttpRequestMessage
             {
@@ -20,7 +21,7 @@ namespace SharkApiHelper
                 Headers =
     {
         { "x-rapidapi-host", "cheapshark-game-deals.p.rapidapi.com" },
-        { "x-rapidapi-key", "9d6efca60fmsh163ac8d66cc051fp151664jsncbf0f85aeccd" },
+        { "x-rapidapi-key", _key },
     },
             };
 
@@ -44,7 +45,7 @@ namespace SharkApiHelper
                 Headers =
     {
         { "x-rapidapi-host", "cheapshark-game-deals.p.rapidapi.com" },
-        { "x-rapidapi-key", "9d6efca60fmsh163ac8d66cc051fp151664jsncbf0f85aeccd" },
+        { "x-rapidapi-key", _key },
     },
             };
             string body;
@@ -56,6 +57,12 @@ namespace SharkApiHelper
             }
 
             return body;
+        }
+        private static string GetRapidApiKey()
+        {
+            StreamReader r = new StreamReader($"D:/IDEshky/projects/Eleks_Project/Cheaplay/SharkApiHelper/MySecrets.json");
+            string json = r.ReadToEnd();
+            return JsonConvert.DeserializeObject<SecretsHelper>(json).RapidapiKey;
         }
 
         public static async Task<Game> ConvertJsonToGame(int idSharkAPI)
@@ -77,6 +84,12 @@ namespace SharkApiHelper
                 LastUpdate = DateTime.Now
             };
             return game;
+        }
+
+        private class SecretsHelper
+        {
+            [JsonProperty("rapidapiKey")]
+            public string RapidapiKey { get; set; }            
         }
     }
 }
