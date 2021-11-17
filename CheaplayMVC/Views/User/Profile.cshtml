@@ -1,1 +1,45 @@
-﻿<a>Here will be your profile</a>
+﻿@model CheaplayMVC.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="text-center">
+    <h2>Profile</h2>
+    <a>If you want to update some information just input new value and click "Save changes"</a>
+    <form asp-action="Update" asp-controller="User" asp-anti-forgery="true" style="margin-top:2em;">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <a>First name: </a>
+            <a>@Model.FirstName</a>
+            <input type="text" asp-for="FirstName" value=""/>
+            <span asp-validation-for="FirstName" />
+        </div>
+        <div class="form-group">
+            <a>Second name: </a>
+            <a>@Model.SecondName</a>
+            <input type="text" asp-for="SecondName" value=""/>
+            <span asp-validation-for="SecondName" />
+        </div>
+        <div class="form-group">
+            <a>Password: </a>
+            <input type="password" asp-for="Password" value="" />
+            <span asp-validation-for="Password" />
+        </div>        
+        <div class="form-group">
+            <a>Email: </a>
+            <a>@Model.Email</a>
+            <input type="email" asp-for="Email" value=""/>
+            <span asp-validation-for="Email" />
+        </div>
+        <div class="form-group">
+            <a>Birthday: </a>
+            <a>@Model.Birthday.ToString("yyyy-MM-dd")</a>
+            <input type="datetime" asp-for="Birthday" value="" placeholder=@DateTime.Now.ToString("yyyy-MM-dd") />
+            <span asp-validation-for="Birthday" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save changes" class="btn btn-outline-dark" />
+        </div>
+    </form>
+</div>
