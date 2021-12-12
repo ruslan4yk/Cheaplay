@@ -1,5 +1,6 @@
 ﻿using Quartz;
 using Quartz.Impl;
+using System;
 
 namespace CheaplayMVC.Jobs
 {
@@ -10,18 +11,31 @@ namespace CheaplayMVC.Jobs
             IScheduler scheduler = await StdSchedulerFactory.GetDefaultScheduler();
             await scheduler.Start();
 
-            IJobDetail job = JobBuilder.Create<GameUpdater>().Build();
+            IJobDetail jobGameUpdater = JobBuilder.Create<GameUpdater>().Build();
+            IJobDetail jobEmailSender = JobBuilder.Create<EmailSender>().Build();
 
-            ITrigger trigger = TriggerBuilder.Create()  
-                .WithIdentity("updatingTrigger", "group1")     
-                .StartNow()                            
-                .WithSimpleSchedule(x => x            
-                    .WithIntervalInHours(4)          
+            ITrigger triggerGameUpdater = TriggerBuilder.Create()
+                .WithIdentity("triggerGameUpdater", "group1")
+                .StartNow()
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInHours(4)
                     .RepeatForever()
-                    )               
-                .Build();                               
+                    )
+                .Build();
 
-            await scheduler.ScheduleJob(job, trigger);
+            var startEmailSenderAt = DateTime.Now.AddHours(2);
+
+            ITrigger triggerEmailSender = TriggerBuilder.Create()
+                .WithIdentity("triggerEmailSender", "group1")
+                .StartAt(startEmailSenderAt)
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInHours(4)
+                    .RepeatForever()
+                    )
+                .Build();
+
+            await scheduler.ScheduleJob(jobGameUpdater, triggerGameUpdater);
+            await scheduler.ScheduleJob(jobEmailSender, triggerEmailSender);
         }
     }
 }

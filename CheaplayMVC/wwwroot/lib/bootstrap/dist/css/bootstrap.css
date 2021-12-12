@@ -9936,6 +9936,12 @@ a.text-dark:hover, a.text-dark:focus {
   border: 0;
 }
 
+.sale-price {
+    font-size: smaller;
+    text-decoration: line-through;
+    color: red;
+}
+
 .text-decoration-none {
   text-decoration: none !important;
 }

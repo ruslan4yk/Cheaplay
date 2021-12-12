@@ -1,0 +1,22 @@
+﻿@using CheaplayMVC.Models
+@model Subscription
+
+@{
+    ViewData["Title"] = "Subscription";
+}
+
+<div class="text-center">
+    <h2>Subscription has been deactivated succesful!</h2>
+
+    <form asp-action="Index" asp-controller="Home" asp-anti-forgery="true">
+
+        <span style="white-space: pre-line">
+            @ViewData["UpdateResult"]
+        </span>
+
+        <div class="form-group" style="margin-top: 2em;">
+            <input type="submit" value="Home" class="btn btn-outline-dark" />
+        </div>
+    </form>
+    <a class="btn btn-outline-dark" asp-area="" asp-controller="Subscription" asp-action="All">My subscriptions</a>
+</div>

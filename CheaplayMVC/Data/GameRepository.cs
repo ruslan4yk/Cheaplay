@@ -32,6 +32,10 @@ namespace CheaplayMVC.Data
         }
         public List<Game> GetByTitle(string title)
         {
+            if(title == null)
+            {
+                title = "";
+            }
             return _games.Where(g => g.Title.ToLower().Contains(title.ToLower())).ToList();
         }
         public List<Game> GetAll()
@@ -69,6 +73,13 @@ namespace CheaplayMVC.Data
         public void Update(Game item)
         {
             _context.Entry(item).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public void AddSubscr(int gameId)
+        {
+            Game game = GetById(gameId);
+            game.NumberSubscribes++;
             _context.SaveChanges();
         }
     }

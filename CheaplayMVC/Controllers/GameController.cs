@@ -1,8 +1,7 @@
 ﻿using CheaplayMVC.Data;
 using Microsoft.AspNetCore.Mvc;
+using SharkApiHelper;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CheaplayMVC.Controllers
@@ -33,6 +32,35 @@ namespace CheaplayMVC.Controllers
         {
             var allGames = _gameRepository.GetByTitle(gameTitle);
             return View(allGames);
+        }
+
+        
+        public IActionResult AddNewGame()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GameAddResult(string gameId)
+        {
+            if (gameId != null)
+            {
+                int intId = Int32.Parse(gameId);
+                var newGame = await SharkApi.ConvertJsonToGame(intId);
+                _gameRepository.Create(new Models.Game
+                {
+                    Title = newGame.Title,
+                    Price = newGame.Price,
+                    StoreId = newGame.StoreId,
+                    Discount = newGame.Discount,
+                    Image = newGame.Image,
+                    IsOnSale = newGame.IsOnSale,
+                    IdSharkAPI = newGame.IdSharkAPI,
+                    LastUpdate = newGame.LastUpdate,
+                    NumberSubscribes = 0
+                });
+            }
+            return View();
         }
     }
 }

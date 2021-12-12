@@ -3,7 +3,6 @@ using CheaplayMVC.Models;
 using CheaplayMVC.Models.Auth;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +18,7 @@ namespace CheaplayMVC.Controllers
 {
     public class UserController : Controller
     {
-        private CheaplayContext _db;
+        private readonly CheaplayContext _db;
         public UserController(CheaplayContext context)
         {
             _db = context;
@@ -36,14 +35,16 @@ namespace CheaplayMVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var encPass = EncryptPassword(model.Password);
+                //User user = await _db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password.Equals(encPass));
                 User user = await _db.Users.FirstOrDefaultAsync(u => u.Login == model.Login && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user.Login, user.Role); // аутентификация
+                    await Authenticate(user.Login, user.Role);
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Incorrect login or password");
             }
             return View(model);
         }
@@ -73,12 +74,12 @@ namespace CheaplayMVC.Controllers
                     });
                     await _db.SaveChangesAsync();
 
-                    await Authenticate(model.Login, Roles.User.ToString()); // аутентификация
+                    await Authenticate(model.Login, Roles.User.ToString());
 
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError("", "Incorrect login or password");
             }
             return View(model);
         }
@@ -177,6 +178,11 @@ namespace CheaplayMVC.Controllers
         public bool CheckPassword(string pass)
         {
             return pass!=null && pass.Length > 7;
+        }
+
+        public string EncryptPassword(string password)
+        {
+            return password.GetHashCode().ToString() + "Eleks".GetHashCode();
         }
 
         public bool CheckEmail(string email)

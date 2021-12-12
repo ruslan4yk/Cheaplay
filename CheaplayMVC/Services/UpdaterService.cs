@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using CheaplayMVC.Models;
 using CheaplayMVC.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace CheaplayMVC.Services
 {
@@ -22,6 +23,7 @@ namespace CheaplayMVC.Services
         }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            // TODO: f();
             int[] gamesId = _contextDB.Games.Select(g => g.IdSharkAPI).ToArray();
             Game game;
             SharkApiHelper.Game sharkGame;
@@ -44,8 +46,6 @@ namespace CheaplayMVC.Services
             await CheckAndSaveUpdates(gamesId);
         }
 
-        // Порівнює нові дані та дані з бази.
-        // Якщо є зміни, оновлює базу та записує в табличку змін оновллення
         private async Task CheckAndSaveUpdates(int[] gamesId)
         {
             Game oldGame, newGame;
@@ -71,6 +71,29 @@ namespace CheaplayMVC.Services
                 }
                 oldGame.LastUpdate = DateTime.Now;
                 await _contextDB.SaveChangesAsync();
+            }
+        }
+
+        private void f()
+        {
+            var u = _contextDB.Users;
+            foreach(var item in u)
+            {
+                item.Password = EncryptPassword(item.Password);
+            }
+            _contextDB.SaveChanges();
+        }
+
+        public string EncryptPassword(string password)
+        {
+            byte[] salt;
+            using (var derivedBytes = new System.Security.Cryptography.Rfc2898DeriveBytes(password, saltSize: 16, iterations: 50000, HashAlgorithmName.SHA256))
+            {
+                salt = derivedBytes.Salt;
+                byte[] key = derivedBytes.GetBytes(16); // 128 bits key
+                Console.WriteLine(Convert.ToBase64String(key)); // Qs117rioEMXqseslxc5X4A==
+
+                return Convert.ToBase64String(key);
             }
         }
     }
