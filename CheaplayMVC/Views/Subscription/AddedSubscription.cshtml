@@ -1,0 +1,17 @@
+﻿@using CheaplayMVC.Models
+@model Subscription
+
+@{
+    ViewData["Title"] = "Added subscription";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Subscription info</h1>
+    @{
+        @Model.Game.Title
+        @Model.Game.IsOnSale
+        @Model.Game.Price
+        @Model.Created
+        @Model.User.Login
+    }
+</div>

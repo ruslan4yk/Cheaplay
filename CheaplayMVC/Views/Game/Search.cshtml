@@ -1,0 +1,53 @@
+﻿@using CheaplayMVC.Models
+@model IEnumerable<Game>
+
+@{
+    ViewData["Title"] = "Search result";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Founded games</h1>
+    <form method="post">
+        <label>Title:</label><br />
+        <input type="text" name="gameTitle" /><br /><br />
+        <input type="submit" value="Search" />
+    </form>
+    <div class="offset-4">
+        <form>
+            @{
+                if (Model.Any())
+                {
+                    foreach (var game in Model)
+                    {
+                        <div class="card d-flex flex-column" style="width: 18rem; height: 22rem; margin-top:2rem; margin-left:2rem;">
+                            <img class="card-img-top" src=@game.Image alt=@game.Title.ToLower() width="120" height="90">
+                            <div class="card-body">
+                                <h6 class="card-title">@game.Title</h6>
+                                @if (@game.Discount == 0)
+                                {
+                                    <pre> </pre>
+                                    <p class="card-text">@game.Price$</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text" style="font-size: smaller; text-decoration:line-through; color:red;">@game.Price$</p>
+                                    <p class="card-text">
+                                        @Math.Round((Decimal.ToDouble(game.Price) *
+        (100 - game.Discount) / 100), 2).ToString()$
+                                    </p>
+
+                                }
+                                <p class="card-text">Subscribes:@game.NumberSubscribes</p>
+                                <button name="button" class="align-self-end btn btn-lg btn-block btn-primary"
+                                        value=@game.Id asp-controller="Home" asp-action="Check">
+                                    Add subscription
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+
+            }
+        </form>
+    </div>
+</div>

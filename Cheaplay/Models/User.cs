@@ -22,6 +22,8 @@ namespace Cheaplay.Models
         [Index(IsUnique = true)]
         public string Email { get; set; }
 
+        public string Role { get; set; }
+
         public int Id { get; set; }
 
         public List<Subscription> Subscriptions { get; set; }

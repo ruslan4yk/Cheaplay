@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Update";
+}
+
+<div class="text-center">
+    <h2>Update result</h2>
+
+    <form asp-action="Index" asp-controller="Home" asp-anti-forgery="true">
+
+        <span style="white-space: pre-line">
+            @ViewData["UpdateResult"]</span>
+
+            <div class="form-group" style="margin-top: 2em;">
+                <input type="submit" value="Home" class="btn btn-outline-dark" />
+            </div>
+</form>
+    <a class="btn btn-outline-dark" asp-area="" asp-controller="User" asp-action="Profile">Profile</a>
+</div>

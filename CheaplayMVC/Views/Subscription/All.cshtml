@@ -1,0 +1,42 @@
+﻿@using CheaplayMVC.Models
+@model IEnumerable<Subscription>
+
+@{
+    ViewData["Title"] = "Subscription";
+}
+
+<form>
+    <div class="text-center">
+        <h1 class="display-4">Subscription</h1>
+        @{
+            foreach (var sub in Model)
+            {
+                <!--<div class="card center" style="width: 18rem; height: 20rem;">-->
+                <div class="card" style="margin-bottom:2rem;">
+                    <div class="card-body">
+                        <h6 class="card-title">Title:   @sub.Game.Title</h6>
+                        <h6 class="card-title">Price:   @sub.Game.Price$</h6>
+                        <h6 class="card-title">Store:   @sub.Game.Store.Name</h6>
+                        <h6 class="card-title">Created: @sub.Created</h6>
+                        @{
+                            if (sub.IsActive)
+                            {
+                                <button name="subscription" class="align-self-end btn btn-lg btn-block btn-danger"
+                                        value=@sub.ToString() asp-controller="Subscription" asp-action="Disactivate">
+                                    Disactivate subscription
+                                </button>
+                            }
+                            else
+                            {
+                                <button name="buttonAdd" class="align-self-end btn btn-lg btn-block btn-primary"
+                                        value=@sub.ToString() asp-controller="Subscription" asp-action="Add">
+                                    Activate subscription
+                                </button>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</form>

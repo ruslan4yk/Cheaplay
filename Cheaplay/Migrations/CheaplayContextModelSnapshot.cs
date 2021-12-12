@@ -21,9 +21,10 @@ namespace Cheaplay.Migrations
 
             modelBuilder.Entity("Cheaplay.Models.DiscountUpdate", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
@@ -151,6 +152,9 @@ namespace Cheaplay.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecondName")

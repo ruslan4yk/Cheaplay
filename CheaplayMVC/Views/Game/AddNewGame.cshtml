@@ -1,0 +1,16 @@
+﻿@using CheaplayMVC.Models
+@model IEnumerable<Game>
+
+@{
+    ViewData["Title"] = "New game";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Adding new game</h1>
+    <form asp-action="GameAddResult" asp-controller="Game" method="post">
+        <label>Game id:</label><br />
+        <input type="text" name="gameId" /><br /><br />
+        <input type="submit" value="Add new game" />
+    </form>
+    
+</div>

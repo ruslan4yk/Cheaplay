@@ -16,7 +16,7 @@ namespace Cheaplay.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        UserRepository _userRepository = new UserRepository();
+        private readonly UserRepository _userRepository = new UserRepository();
         [HttpGet("all")]
         public ActionResult<List<User>> GetAll() => _userRepository.GetAll();
 

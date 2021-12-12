@@ -30,9 +30,9 @@ namespace Cheaplay.Data
         {
             return _games.FirstOrDefault(g => g.IdSharkAPI == id);
         }
-        public Game GetByTitle(string title)
+        public List<Game> GetByTitle(string title)
         {
-            return _games.FirstOrDefault(g => g.Title.Equals(title));
+            return _games.Where(g => g.Title.ToLower().Contains(title.ToLower())).ToList();
         }
         public List<Game> GetAll()
         {
